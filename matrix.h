@@ -18,6 +18,8 @@ class Matrix
     Matrix(vector<long double> m, int row, int col);
     void print();
     int value_at(int row, int col);
+    int pathChance();
+    int checkPath(int t);  
     int size();
     int rows();
     int cols();
@@ -31,14 +33,27 @@ class Matrix
 class Tile
 {
   public:
-    Tile(int value);
+    Tile(int value, int rowsize, int row, int col);
     void print();
+    int position(int row, int col);
   private: 
+    //Tile position in the matrix
+    int m_rowsize;
+    int m_row;
+    int m_col;
+    int m_position;
+    //If the NSWE path is blocked then these values equal 1
     int m_north;
     int m_south;
     int m_west;
     int m_east;
-    int m_value;  
+    //Tiles own value
+    int m_value;
+    //The tile value to the NSWE 
+    int m_tnorth;
+    int m_tsouth;
+    int m_twest;
+    int m_teast; 
 };
 
 #endif

@@ -32,6 +32,8 @@ int main(int argc, char *argv[])
   
   vector<long double> v; 
   vector<Tile*> tiles;
+
+  vector<long double> transv;
  
   ifstream f(argv[1]);
   while(getline (f, line))
@@ -68,7 +70,7 @@ int main(int argc, char *argv[])
     {
       Tile* tmp;
       cout << "Value going in: " << mat->value_at(i+1,j+1) << "\n";
-      tmp = new Tile(mat->value_at(i+1,j+1));
+      tmp = new Tile(mat->value_at(i+1,j+1), mat->cols(), i+1, j+1);
       tiles.push_back(tmp);
     }
   }
@@ -88,6 +90,21 @@ int main(int argc, char *argv[])
   for(int i=0; i<obs.size(); i++)
   {
     cout << "Observations: " << obs.at(i) << "\n";
+  }
+
+  for(int i=0; i < mat->rows(); i++)
+  {
+    for(int j=0; j < mat->cols() j++)
+    {
+      if(tiles[j]->checkPath(i) == 1)
+      {
+        transv.push_back(pathChance());
+      }
+      else
+      {
+        transv.push_back(0);
+      } 
+    }
   }
 
   return 0;
