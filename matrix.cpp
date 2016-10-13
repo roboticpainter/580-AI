@@ -17,7 +17,7 @@ void Matrix::print()
   int count = m_col;
   for(int i=0; i < m_matrix.size(); i++)
   {
-    cout << m_matrix[i] << " ";
+    cout << std::showpoint << std::fixed << setprecision(2) << m_matrix[i] << " ";
     count--;
     if(count == 0)
     {
@@ -201,7 +201,7 @@ int Tile::position(int row, int col)
 }
 long double Tile::pathChance()
 {
-  long double val = 4-m_north-m_south-m_west-m_east;
+  long double val = 4-(m_north+m_south+m_west+m_east);
   if(val <= 0)
   {
     return 0;
