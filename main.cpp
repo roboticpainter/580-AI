@@ -5,6 +5,7 @@
 
 
 #include <iostream>
+#include <stdlib.h>
 #include "matrix.h"
 #include <fstream>
 #include <sstream>
@@ -25,6 +26,10 @@ int main(int argc, char *argv[])
   int total=0;
   int cols=0;
   int x=0;
+  double sens_err=0;
+ 
+  vector<string> obs;
+  
   vector<long double> v; 
   vector<Tile*> tiles;
  
@@ -39,6 +44,13 @@ int main(int argc, char *argv[])
   {
     v.push_back(x);
     total++;
+  }
+ 
+  sens_err = atof(argv[2]);
+
+  for(int i=3; i<argc; i++)
+  {
+    obs.push_back(argv[i]);
   }
 
   cols = total/rows;
@@ -72,6 +84,11 @@ int main(int argc, char *argv[])
     }
   }
 
+  cout << "Sensory Error: " << sens_err << "\n";
+  for(int i=0; i<obs.size(); i++)
+  {
+    cout << "Observations: " << obs.at(i) << "\n";
+  }
 
   return 0;
 }
