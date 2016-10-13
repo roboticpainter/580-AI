@@ -17,6 +17,7 @@ using std::cout;
 
 int main(int argc, char *argv[])
 {
+  Matrix* trans;
   Matrix* mat;
   Matrix* mat2;
   Matrix* mat3;
@@ -92,13 +93,13 @@ int main(int argc, char *argv[])
     cout << "Observations: " << obs.at(i) << "\n";
   }
 
-  for(int i=0; i < mat->rows(); i++)
+  for(int i=0; i < tiles.size(); i++)
   {
-    for(int j=0; j < mat->cols() j++)
+    for(int j=0; j < tiles.size(); j++)
     {
       if(tiles[j]->checkPath(i) == 1)
       {
-        transv.push_back(pathChance());
+        transv.push_back(tiles[j]->pathChance());
       }
       else
       {
@@ -106,6 +107,10 @@ int main(int argc, char *argv[])
       } 
     }
   }
+  
+  trans = new Matrix(transv, tiles.size(), tiles.size());
+
+  trans->print();
 
   return 0;
 }

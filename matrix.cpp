@@ -27,7 +27,7 @@ void Matrix::print()
   }   
 }
 
-int Matrix::value_at(int row, int col)
+long double Matrix::value_at(int row, int col)
 {
   return m_matrix[((((row - 1)*m_col)+col)-1)];
 }
@@ -199,10 +199,10 @@ int Tile::position(int row, int col)
 {
   return (((row-1)*m_rowsize)+(col-1));
 }
-int Tile::pathChance()
+long double Tile::pathChance()
 {
-  int val = 4-m_north-m_south-m_west-m_east;
-  if(val = 0)
+  long double val = 4-m_north-m_south-m_west-m_east;
+  if(val <= 0)
   {
     return 0;
   }

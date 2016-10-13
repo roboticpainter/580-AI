@@ -17,9 +17,7 @@ class Matrix
   public:
     Matrix(vector<long double> m, int row, int col);
     void print();
-    int value_at(int row, int col);
-    int pathChance();
-    int checkPath(int t);  
+    long double value_at(int row, int col);
     int size();
     int rows();
     int cols();
@@ -36,6 +34,8 @@ class Tile
     Tile(int value, int rowsize, int row, int col);
     void print();
     int position(int row, int col);
+    long double pathChance();
+    int checkPath(int t);
   private: 
     //Tile position in the matrix
     int m_rowsize;
