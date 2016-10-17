@@ -47,6 +47,26 @@ int Matrix::cols()
   return m_col;
 }
 
+Matrix* Matrix::multiply(Matrix* jointm)
+{
+  long double sum;
+  vector<long double> r;
+
+  for(int i=0; i < m_row; i++)
+  {
+    sum = 0;
+    for(int j=0; j < m_col; j++)
+    {
+      sum+=((m_matrix[i*m_col+j])*(jointm->value_at(i+1,1)));
+     // cout << "Sum: " << sum << "\n";
+    }
+    r.push_back(sum);
+  }
+
+  Matrix* R = new Matrix(r, m_row, 1);
+  return R;
+}
+
 Tile::Tile(int value, int rowsize, int row, int col)
 {
   //Tile location
@@ -64,6 +84,7 @@ Tile::Tile(int value, int rowsize, int row, int col)
   m_twest = -1;
   m_teast = -1;
   m_value = value;
+  m_obstacle = 0;
   switch(value) {
    case 0:
      break;
@@ -163,6 +184,11 @@ Tile::Tile(int value, int rowsize, int row, int col)
   {
     m_teast = position(m_row, col+1);
   }
+
+  if(m_north == 1 && m_south == 1 && m_west == 1 && m_east == 1)
+  {
+    m_obstacle = 1;
+  }
   
 }
 
@@ -215,4 +241,8 @@ int Tile::checkPath(int t)
     return 1;
   }
   return 0;
+}
+int Tile::obstacle()
+{
+  return m_obstacle;
 }

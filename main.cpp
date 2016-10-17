@@ -17,16 +17,18 @@ using std::cout;
 
 int main(int argc, char *argv[])
 {
+  Matrix* Observation;
+  Matrix* result;
   Matrix* trans;
+  Matrix* joint;
   Matrix* mat;
-  Matrix* mat2;
-  Matrix* mat3;
   string line;
   stringstream ss;
   int rows=0;
   int total=0;
   int cols=0;
   int x=0;
+  long double tmp=0;
   double sens_err=0;
  
   vector<string> obs;
@@ -35,7 +37,10 @@ int main(int argc, char *argv[])
   vector<Tile*> tiles;
 
   vector<long double> transv;
- 
+  vector<long double> jointv;
+  vector<long double> observ; 
+
+
   ifstream f(argv[1]);
   while(getline (f, line))
   {
@@ -109,8 +114,56 @@ int main(int argc, char *argv[])
   }
   
   trans = new Matrix(transv, tiles.size(), tiles.size());
+ 
+  cout << "\nTansitivity Matrix: \n"; 
 
   trans->print();
+
+
+  for(int i=0; i < tiles.size(); i++)
+  {
+    if(tiles[i]->obstacle() == 0)
+    { 
+      tmp++;
+    }
+  }
+
+  long double obsv = 1/tmp; 
+  
+  for(int i=0; i < tiles.size(); i++)
+  {
+    if(tiles[i]->obstacle() == 0)
+    {
+      jointv.push_back(obsv);
+    }
+    else
+    {
+      jointv.push_back(0);
+    }
+  }
+
+  joint = new Matrix(jointv, tiles.size(), 1);
+
+  cout << "\nJoint Matrix: \n";
+
+  joint->print();
+
+  cout << "\nResult Matrix: \n";
+
+  result = trans->multiply(joint);
+
+  result->print();   
+
+  joint = result; 
+
+  cout << "\nNew Joint Matrix: \n";
+
+  joint->print();
+
+  for(int i=0; i < 4; i++)
+  {
+    
+  }
 
   return 0;
 }

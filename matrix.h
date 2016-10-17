@@ -18,11 +18,13 @@ class Matrix
 {
   public:
     Matrix(vector<long double> m, int row, int col);
+    Matrix& operator=(const Matrix& m);
     void print();
     long double value_at(int row, int col);
     int size();
     int rows();
     int cols();
+    Matrix* multiply(Matrix* jointm);
 
   private:
     vector<long double> m_matrix;
@@ -38,6 +40,7 @@ class Tile
     int position(int row, int col);
     long double pathChance();
     int checkPath(int t);
+    int obstacle();
   private: 
     //Tile position in the matrix
     int m_rowsize;
@@ -55,7 +58,9 @@ class Tile
     int m_tnorth;
     int m_tsouth;
     int m_twest;
-    int m_teast; 
+    int m_teast;
+    //If tile is a obstacle or not
+    int m_obstacle; 
 };
 
 #endif
