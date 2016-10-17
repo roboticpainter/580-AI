@@ -17,7 +17,7 @@ using std::cout;
 
 int main(int argc, char *argv[])
 {
-  Matrix* Observation;
+  Matrix* observation;
   Matrix* result;
   Matrix* trans;
   Matrix* joint;
@@ -160,10 +160,40 @@ int main(int argc, char *argv[])
 
   joint->print();
 
-  for(int i=0; i < 4; i++)
+  //MAY BE WRONG VALUES, USING HOMEWORK VALUES UNTIL I ASK HOW TO CALC!
+  for(int i=0; i < tiles.size();  i++)
   {
-    
+    if((tiles[i]->comparePath(obs.at(0)))==0)
+    {
+      observ.push_back(0.6561);
+    }
+    else if((tiles[i]->comparePath(obs.at(0)))==1)
+    {
+      observ.push_back(0.0729);
+    }
+    else if((tiles[i]->comparePath(obs.at(0)))==2)
+    {
+      observ.push_back(0.0081);
+    }
+    else if((tiles[i]->comparePath(obs.at(0)))==3)
+    {
+      observ.push_back(0.0009);
+    }
+    else if((tiles[i]->comparePath(obs.at(0)))==4)
+    {
+      observ.push_back(0.0001);
+    }
+    else
+    {
+      cout << "comparePath returned an invalid value.\n";
+    }
   }
+  observation = new Matrix(observ, 5, 1);
+  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+  cout << "\nNew Joint Matrix: \n";
+
+  observation->print(); 
 
   return 0;
 }

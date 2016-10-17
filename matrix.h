@@ -41,6 +41,7 @@ class Tile
     long double pathChance();
     int checkPath(int t);
     int obstacle();
+    int comparePath(string obs);
   private: 
     //Tile position in the matrix
     int m_rowsize;

@@ -17,7 +17,7 @@ void Matrix::print()
   int count = m_col;
   for(int i=0; i < m_matrix.size(); i++)
   {
-    cout << std::showpoint << std::fixed << setprecision(2) << m_matrix[i] << " ";
+    cout << std::showpoint << std::fixed << setprecision(4) << m_matrix[i] << " ";
     count--;
     if(count == 0)
     {
@@ -245,4 +245,65 @@ int Tile::checkPath(int t)
 int Tile::obstacle()
 {
   return m_obstacle;
+}
+int Tile::comparePath(string obs)
+{
+  int sum = 0;
+  if(obs.find('N') != string::npos)
+  {
+    if(m_north == 1)
+    {
+      sum++;
+    } 
+  }
+  else
+  {
+    if(m_north == 0)
+    {
+      sum++;
+    }
+  }
+  if(obs.find('S') != string::npos)
+  {
+    if(m_south == 1)
+    {
+      sum++;
+    } 
+  }
+  else
+  {
+    if(m_south == 0)
+    {
+      sum++;
+    }
+  }
+  if(obs.find('W') != string::npos)
+  {
+    if(m_west == 1)
+    {
+      sum++;
+    } 
+  }
+  else
+  {
+    if(m_west == 0)
+    {
+      sum++;
+    }
+  }
+  if(obs.find('E') != string::npos)
+  {
+    if(m_east == 1)
+    {
+      sum++;
+    } 
+  }
+  else
+  {
+    if(m_east == 0)
+    {
+      sum++;
+    }
+  }
+  return sum;
 }
