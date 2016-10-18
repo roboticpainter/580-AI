@@ -27,6 +27,35 @@ void Matrix::print()
   }   
 }
 
+
+void Matrix::output()
+{
+  vector<int> states;
+  long double max=0;
+  for(int i=0; i < m_row; i++)
+  {
+    for(int j=0; j < m_col; j++)
+    {
+      if(m_matrix[i*m_col+j] > max)
+      {
+        max=m_matrix[i*m_col+j];
+        states.clear();
+        states.push_back(i*m_col+j);
+      }
+      else if(m_matrix[i*m_col+j] == max)
+      {
+        states.push_back(i*m_col+j);
+      }
+    }
+  }
+  cout << std::showpoint << std::fixed << setprecision(12) << max;
+  for(int i=0; i < states.size(); i++)
+  {
+    cout << " " << states.at(i);
+  }
+  cout << "\n";
+}
+
 long double Matrix::value_at(int row, int col)
 {
   return m_matrix[((((row - 1)*m_col)+col)-1)];
@@ -58,11 +87,39 @@ Matrix* Matrix::multiply(Matrix* jointm)
     for(int j=0; j < m_col; j++)
     {
       sum+=((m_matrix[i*m_col+j])*(jointm->value_at(i+1,1)));
-     // cout << "Sum: " << sum << "\n";
+      //cout << "Sum: " << sum << "\n";
     }
     r.push_back(sum);
   }
 
+  Matrix* R = new Matrix(r, m_row, 1);
+  return R;
+}
+
+long double Matrix::Sum()
+{
+  long double sum=0;
+  for(int i=0; i < m_row; i++)
+  {
+    for(int j=0; j < m_col; j++)
+    {
+      sum+=m_matrix[i*m_col+j];
+    }
+  }
+  return sum;
+}
+
+Matrix* Matrix::estimate(long double sum)
+{
+  vector<long double> r;
+
+  for(int i=0; i < m_row; i++)
+  {
+    for(int j=0; j < m_col; j++)
+    {
+      r.push_back(((m_matrix[i*m_col+j])/sum));
+    }
+  }
   Matrix* R = new Matrix(r, m_row, 1);
   return R;
 }

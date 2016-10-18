@@ -17,6 +17,8 @@ using std::cout;
 
 int main(int argc, char *argv[])
 {
+  Matrix* answer;
+  Matrix* estimation;
   Matrix* observation;
   Matrix* result;
   Matrix* trans;
@@ -30,6 +32,7 @@ int main(int argc, char *argv[])
   int x=0;
   long double tmp=0;
   double sens_err=0;
+  long double sum=0;
  
   vector<string> obs;
   
@@ -163,11 +166,11 @@ int main(int argc, char *argv[])
   //MAY BE WRONG VALUES, USING HOMEWORK VALUES UNTIL I ASK HOW TO CALC!
   for(int i=0; i < tiles.size();  i++)
   {
-    if((tiles[i]->comparePath(obs.at(0)))==0)
+    if((tiles[i]->comparePath(obs.at(0)))==4)
     {
       observ.push_back(0.6561);
     }
-    else if((tiles[i]->comparePath(obs.at(0)))==1)
+    else if((tiles[i]->comparePath(obs.at(0)))==3)
     {
       observ.push_back(0.0729);
     }
@@ -175,11 +178,11 @@ int main(int argc, char *argv[])
     {
       observ.push_back(0.0081);
     }
-    else if((tiles[i]->comparePath(obs.at(0)))==3)
+    else if((tiles[i]->comparePath(obs.at(0)))==1)
     {
       observ.push_back(0.0009);
     }
-    else if((tiles[i]->comparePath(obs.at(0)))==4)
+    else if((tiles[i]->comparePath(obs.at(0)))==0)
     {
       observ.push_back(0.0001);
     }
@@ -188,12 +191,30 @@ int main(int argc, char *argv[])
       cout << "comparePath returned an invalid value.\n";
     }
   }
-  observation = new Matrix(observ, 5, 1);
+  observation = new Matrix(observ, tiles.size(), 1);
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-  cout << "\nNew Joint Matrix: \n";
+  cout << "\nObservation Matrix: \n";
 
   observation->print(); 
+
+  estimation = observation->multiply(joint);
+
+  cout << "\nEstimation Matrix: \n";
+
+  estimation->print(); 
+
+  sum = estimation->Sum(); 
+
+  cout << "\nSum: " << sum << "\n";
+
+  answer = estimation->estimate(sum);
+
+  cout << "\nAnswers Matrix: \n";
+
+  answer->print();
+
+  answer->output();
 
   return 0;
 }

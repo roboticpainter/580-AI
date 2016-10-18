@@ -20,11 +20,14 @@ class Matrix
     Matrix(vector<long double> m, int row, int col);
     Matrix& operator=(const Matrix& m);
     void print();
+    void output();
     long double value_at(int row, int col);
     int size();
     int rows();
     int cols();
     Matrix* multiply(Matrix* jointm);
+    long double Sum();
+    Matrix* estimate(long double sum); 
 
   private:
     vector<long double> m_matrix;
