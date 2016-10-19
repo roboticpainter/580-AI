@@ -26,6 +26,7 @@ class Matrix
     int rows();
     int cols();
     Matrix* multiply(Matrix* jointm);
+    Matrix* multiply2(Matrix* jointm);
     long double Sum();
     Matrix* estimate(long double sum); 
 

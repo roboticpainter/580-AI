@@ -17,7 +17,7 @@ void Matrix::print()
   int count = m_col;
   for(int i=0; i < m_matrix.size(); i++)
   {
-    cout << std::showpoint << std::fixed << setprecision(4) << m_matrix[i] << " ";
+    cout << std::showpoint << std::fixed << setprecision(12) << m_matrix[i] << " ";
     count--;
     if(count == 0)
     {
@@ -92,6 +92,25 @@ Matrix* Matrix::multiply(Matrix* jointm)
     r.push_back(sum);
   }
 
+  Matrix* R = new Matrix(r, m_row, 1);
+  return R;
+}
+
+Matrix* Matrix::multiply2(Matrix* jointm)
+{
+  long double sum;
+  vector<long double> r;
+
+  for(int i=0; i < m_row; i++)
+  {
+    sum = 0;
+    for(int j=0; j < m_col; j++)
+    {
+      sum+=((m_matrix[i*m_col+j])*(jointm->value_at(j+1, 1)));
+    }
+    r.push_back(sum);
+  }
+  
   Matrix* R = new Matrix(r, m_row, 1);
   return R;
 }

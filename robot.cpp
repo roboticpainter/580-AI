@@ -5,8 +5,9 @@
 
 #include "robot.h"
 
-Robot::Robot(Matrix* t, Matrix* j)
+Robot::Robot(Matrix* trans, Matrix* joint, Matrix* obser)
 {
-  m_t = t;
-  m_j = j;
+  m_t = trans;
+  m_j = joint;
+  m_o = obser;
 }
