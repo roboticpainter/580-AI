@@ -1,0 +1,1 @@
+./test mytest/train_input1.txt mytest/train_output1.txt mytest/test_input1.txt mytest/test_output1.txt mytest/structure1.txt mytest/weights1.txt
