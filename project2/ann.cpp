@@ -5,7 +5,18 @@
 
 #include "ann.h"
 
-Ann::Ann()
+Node::Node(int id) : a(0), in(0), err(0), idnum(id)
+{
+
+}
+
+Node::~Node()
+{
+
+}
+
+
+Ann::Ann(int k) : m_k(k) 
 {
   
 }
@@ -38,6 +49,11 @@ void Ann::add_value(int choice, long double value)
       weights.push_back(value);
       break;
   }
+}
+
+void Ann::add_node(Node* n)
+{
+  network.push_back(n);
 }
 
 void Ann::init_rows(int value)
@@ -77,14 +93,55 @@ void Ann::print_members()
   {
     cout << weights.at(i) << " \n";
   }
+  cout << "K:" << m_k << "\n";
 }
 
-Node::Node()
+int Ann::size(int selection)
 {
-
+  switch(selection)
+  {
+    case 1:
+      return train_input.size();
+      break;
+    case 2:
+      return train_output.size();
+      break;
+    case 3:
+      return test_input.size();
+      break;
+    case 4:
+      return test_output.size();
+      break;
+    case 5:
+      return structure.size();
+      break;
+    case 6:
+      return weights.size();
+      break;
+  }
 }
 
-Node::~Node()
+long double Ann::value(int selection, int pos)
 {
-
+  switch(selection)
+  {
+    case 1:
+      return train_input.at(pos);
+      break;
+    case 2:
+      return train_output.at(pos);
+      break;
+    case 3:
+      return test_input.at(pos);
+      break;
+    case 4:
+      return test_output.at(pos);
+      break;
+    case 5:
+      return structure.at(pos);
+      break;
+    case 6:
+      return weights.at(pos);
+      break;
+  } 
 }
