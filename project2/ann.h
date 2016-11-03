@@ -16,6 +16,9 @@ using std::string;
 
 class Node
 {
+ 
+  friend class Ann; 
+
   public:
     Node(int id);
     ~Node();
@@ -40,6 +43,8 @@ class Ann
     void print_members();
     int  size(int selection);
     long double value(int selection, int pos);
+    void update_next_node(int node, int nex_node);
+    void print_struc();
   private:
     vector<long double> train_input;  //1
     vector<long double> train_output; //2
@@ -49,7 +54,7 @@ class Ann
     vector<long double> weights;      //6
     int io_rows;
     int m_k;
-    vector<Node*> network;
+    vector<Node*> network;            //0
 
 };
 

@@ -118,6 +118,9 @@ int Ann::size(int selection)
     case 6:
       return weights.size();
       break;
+    case 0:
+      return network.size();
+      break;
   }
 }
 
@@ -144,4 +147,23 @@ long double Ann::value(int selection, int pos)
       return weights.at(pos);
       break;
   } 
+}
+
+void Ann::update_next_node(int node, int nex_node)
+{
+  network.at(node)->next.push_back(network.at(nex_node)); 
+}
+
+void Ann::print_struc()
+{
+  cout << "Structure: \n";
+  for(int i = 0; i < network.size(); i++)
+  {
+    cout << "Node[" << i << "] Links:\n";
+    for(int j = 0; j < network.at(i)->next.size(); j++)
+    {
+      cout << (network.at(i)->next.at(j))->idnum << " ";
+    }
+    cout << "\n"; 
+  }
 }

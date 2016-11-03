@@ -19,8 +19,9 @@ int main(int argc, char *argv[])
   int tmp = 0; 
   int tmp2 = 0;
   int tmp3 = 0; 
+  int cur_node = 0;
 
-  for(int i=1; i <= 6; i++)
+  for(int i=1; i <= 5; i++)
   {
     long double x = 0;
     string line;
@@ -49,6 +50,22 @@ int main(int argc, char *argv[])
       tmp++;
     }    
   }
+
+  for(int i=0; i < (ann->size(5) - 1); i++)
+  {
+    tmp = ann->value(5,i);
+    tmp2 = ann->value(5, i+1);
+    for(int j=0; j < tmp; j++)
+    {
+      for(int k=0; k < tmp2; k++)
+      {
+        ann->update_next_node(j+cur_node, cur_node+tmp+k);
+      }
+    }
+    cur_node += tmp;
+  } 
+
+  ann->print_struc(); 
 
   return 0;
 }
