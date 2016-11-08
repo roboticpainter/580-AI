@@ -16,6 +16,11 @@ Node::~Node()
 }
 
 
+void Node::set_in(long double value)
+{
+  in = value; 
+}
+
 Ann::Ann(int k) : m_k(k) 
 {
   
@@ -49,6 +54,11 @@ void Ann::add_value(int choice, long double value)
       weights.push_back(value);
       break;
   }
+}
+
+void Ann::add_weights(int iter, long double value)
+{
+  network.at(iter)->weights.push_back(value);
 }
 
 void Ann::add_node(Node* n)
@@ -87,11 +97,6 @@ void Ann::print_members()
    for(int i=0; i < structure.size(); i++)
   {
     cout << structure.at(i) << " \n";
-  }
-  cout << "Weights: \n";
-   for(int i=0; i < weights.size(); i++)
-  {
-    cout << weights.at(i) << " \n";
   }
   cout << "K:" << m_k << "\n";
 }
@@ -154,16 +159,69 @@ void Ann::update_next_node(int node, int nex_node)
   network.at(node)->next.push_back(network.at(nex_node)); 
 }
 
+void Ann::update_prev_nodes()
+{
+  for(int i=0; i < (network.size() - structure.back()); i++)
+  {
+    for(int j=0; j < network.at(i)->next.size(); j++)
+    {
+      Node* tmp = network.at(i)->next.at(j);
+      network.at(tmp->idnum)->from.push_back(network.at(i));
+      //long double tmpw = network.at(i)->weights.at(j);
+      network.at(tmp->idnum)->f_weights.push_back(0);
+    }
+  }
+}
+
 void Ann::print_struc()
 {
   cout << "Structure: \n";
   for(int i = 0; i < network.size(); i++)
   {
-    cout << "Node[" << i << "] Links:\n";
+    cout << "Node[" << i << "]\n"; 
+    cout << "To Links:\n";
     for(int j = 0; j < network.at(i)->next.size(); j++)
     {
       cout << (network.at(i)->next.at(j))->idnum << " ";
     }
-    cout << "\n"; 
+    cout << "\nWeights:\n";
+    for(int j=0; j < network.at(i)->weights.size(); j++)
+    {
+      cout << network.at(i)->weights.at(j) << " ";
+    }
+    cout << "\nFrom Links:\n";
+    for(int j = 0; j < network.at(i)->from.size(); j++)
+    {
+      cout << (network.at(i)->from.at(j))->idnum << " ";
+    }
+    cout << "\nFrom Weights:\n";
+    for(int j=0; j < network.at(i)->f_weights.size(); j++)
+    {
+      cout << network.at(i)->f_weights.at(j) << " ";
+    }
+    cout << "\n\n";
+  }
+}
+
+void Ann::eval()
+{
+  long double a[network.size()];
+  //STEP 1:
+  //for loop fills a vector
+  /* for(int i=0; i < )
+  {
+
+  }*/
+  //STEP 2/3:
+  for(int i=structure.at(0); i < (network.size()-1); i++)
+  {
+    long double sum=0;
+    //Need from values...
+    /*
+    for(int j=0; j < )
+    {
+ 
+    }*/
+    //network.at(i)->set_in();
   }
 }

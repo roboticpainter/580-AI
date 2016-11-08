@@ -9,10 +9,12 @@
 #include<vector>
 #include<iostream>
 #include<string>
+#include<map>
 
 using namespace std;
 using std::cout;
 using std::string;
+using std::map;
 
 class Node
 {
@@ -22,13 +24,18 @@ class Node
   public:
     Node(int id);
     ~Node();
+    void set_in(long double value);
   private:
     int idnum;
     long double a;
     long double in;
     long double err;
+    //map<Node*, long double> nextmap;
+    //map<Node*, long double> frommap;
     vector<Node*> next;
     vector<long double> weights;
+    vector<Node*> from;
+    vector<long double> f_weights;
 
 };
 
@@ -38,13 +45,16 @@ class Ann
     Ann(int k);
     ~Ann();
     void add_value(int choice, long double value);
+    void add_weights(int iter, long double value);
     void add_node(Node* n);
     void init_rows(int value);
     void print_members();
     int  size(int selection);
     long double value(int selection, int pos);
     void update_next_node(int node, int nex_node);
+    void update_prev_nodes();
     void print_struc();
+    void eval();
   private:
     vector<long double> train_input;  //1
     vector<long double> train_output; //2

@@ -20,6 +20,10 @@ int main(int argc, char *argv[])
   int tmp2 = 0;
   int tmp3 = 0; 
   int cur_node = 0;
+  long double val =0;
+  string l;
+  stringstream stream;
+  
 
   for(int i=1; i <= 5; i++)
   {
@@ -39,7 +43,7 @@ int main(int argc, char *argv[])
     }
     ann->init_rows(rows);
   }
-  ann->print_members();
+
   tmp2 = ann->size(5);
   for(int i=0; i < tmp2; i++)
   {
@@ -65,7 +69,42 @@ int main(int argc, char *argv[])
     cur_node += tmp;
   } 
 
+  ann->update_prev_nodes();
+
   ann->print_struc(); 
+
+/*
+  ifstream f6(argv[6]); 
+
+
+  while(getline(f6,l))
+  {
+    stream << l << ' ';
+    while(stream >> val)
+    {
+      cout << "Weight Value: " << val << "\n";
+      ann->add_weights(witer, val);
+    }
+    witer++;
+    cout << "HEREERERERRE\n";
+  }
+
+
+  for(int i=0; i < ann->size(0); i++)
+  {
+    
+    while(getline(f6,l))
+    {
+      stream << l << ' ';
+      while(stream >> val)
+      {
+        cout << "Weight Value: " << val << "\n";
+        ann->add_weights(i, val);
+      }
+    }
+  }
+*/
+  ann->print_members();
 
   return 0;
 }
