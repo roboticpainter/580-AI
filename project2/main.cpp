@@ -87,5 +87,7 @@ int main(int argc, char *argv[])
   ann->print_struc();
   //ann->print_members();
 
+  ann->eval();
+
   return 0;
 }

@@ -24,9 +24,21 @@ void Node::set_in(long double value)
   in = value; 
 }
 
+void Node::set_a(long double value)
+{
+  long double tmp = 0;
+  tmp = (1/(1+(exp((-1)*(value)))));
+  a = tmp;
+}
+
+void Node::set_err(long double value)
+{
+
+}
+
 Ann::Ann(int k) : m_k(k) 
 {
-  
+    
 }
 
 Ann::~Ann()
@@ -56,6 +68,25 @@ void Ann::add_value(int choice, long double value)
     case 6:
       weights.push_back(value);
       break;
+  }
+}
+
+void Ann::set_y()
+{
+  //Only setup for current tests with 3 types of digits
+  int tmp = structure.back();
+  switch(tmp)
+  {
+    case 3:
+    for(unsigned int i = 0; i < 3; i++)
+    {
+      for(unsigned int j = 0; j < 3; j++)
+      {
+        y[i][j] = 0.9;
+        y[i][i] = 0.1;
+      }
+    }
+    break;
   }
 }
 
@@ -208,25 +239,73 @@ void Ann::print_struc()
   }
 }
 
+
 void Ann::eval()
 {
-  //long double a[network.size()];
+  unsigned int input_layer_size = structure.at(0);
+  unsigned int output_layer_size = structure.back();
+  unsigned int output_layer_first_node = (network.size() - output_layer_size);
+  //X values are: train_input values
   //STEP 1:
-  //for loop fills a vector
-  /* for(int i=0; i < )
+  //for loop fills a value of first layer
+  for(unsigned int i=0; i < input_layer_size; i++)
   {
-
-  }*/
-  //STEP 2/3:
-  for(unsigned int i=structure.at(0); i < (network.size()-1); i++)
+    network.at(i)->a = train_input.at(0);
+  }
+  //STEP 2/3:Calculate a values and in values for each node outside of the input layer
+  for(unsigned int i=input_layer_size; i < network.size(); i++)
   {
-    //long double sum=0;
-    //Need from values...
-    /*
-    for(int j=0; j < )
+    long double sum=0; 
+    for(unsigned int j=0; j < network.at(i)->from.size(); j++)
     {
- 
-    }*/
-    //network.at(i)->set_in();
+      sum += ((network.at(i)->from.at(j)->a) * (network.at(i)->f_weights.at(j))); 
+    }
+    network.at(i)->set_in(sum);
+    network.at(i)->set_a(sum);
+  }
+  //STEP 4:Calculate the error in the output layer. NEEDS MODIFICATION OF Y VALUES
+  int iter=0;
+  for(unsigned int i = output_layer_first_node; i < network.size(); i++)
+  {
+    long double product = 0;
+    product = ((network.at(i)->a) * (1-(network.at(i)->a)) * ((y[0][iter])-(network.at(i)->a)));
+    network.at(i)->set_err(product);
+    iter++;
+  }
+  //STEP 5/6:Calculate error for each previous node using back propagation.
+  for(unsigned int i = (output_layer_first_node - 1); i >= 0; i--)
+  {
+    long double tmp = 0;
+    long double product = 0;
+    product = ((network.at(i)->a)*((1-(network.at(i)->a))));
+    for(unsigned int j = 0; j < network.at(i)->next.size(); j++)
+    {
+      tmp += ((network.at(i)->next.at(j)->err) * network.at(i)->n_weights.at(j));
+    }
+    tmp = tmp*product;
+    network.at(i)->set_err(tmp);
+  }
+  //STEP 7:Update weights!
+  for(unsigned int i=0; i < network.size(); i++)
+  {
+    long double sum = 0;
+    for(unsigned int j=0; j < network.at(i)->n_weights.size(); j++)
+    {
+      
+    }
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+//REMOVE after work, remove empty lines ^
+                                     // |

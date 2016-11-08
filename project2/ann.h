@@ -10,6 +10,7 @@
 #include<iostream>
 #include<string>
 #include<map>
+#include<math.h>
 
 using namespace std;
 using std::cout;
@@ -25,6 +26,8 @@ class Node
     Node(int id);
     ~Node();
     void set_in(long double value);
+    void set_a(long double value);
+    void set_err(long double value);
   private:
     int idnum;
     long double a;
@@ -45,6 +48,7 @@ class Ann
     Ann(int k);
     ~Ann();
     void add_value(int choice, long double value);
+    void set_y();
     void add_weights(int iter, long double value);
     void add_node(Node* n);
     void init_rows(int value);
@@ -65,6 +69,7 @@ class Ann
     int io_rows;
     int m_k;
     vector<Node*> network;            //0
+    vector< vector<long double> > y;
 
 };
 
