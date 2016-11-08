@@ -33,7 +33,7 @@ class Node
     //map<Node*, long double> nextmap;
     //map<Node*, long double> frommap;
     vector<Node*> next;
-    vector<long double> weights;
+    vector<long double> n_weights;
     vector<Node*> from;
     vector<long double> f_weights;
 

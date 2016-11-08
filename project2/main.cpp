@@ -69,42 +69,23 @@ int main(int argc, char *argv[])
     cur_node += tmp;
   } 
 
+
+  ifstream f6(argv[6]); 
+  int count = 0;
+  while(getline(f6, l))
+  {
+    istringstream ist(l);
+    while(ist >> val)
+    {
+      ann->add_weights(count, val);
+    }
+    count++;
+  }
+
   ann->update_prev_nodes();
 
-  ann->print_struc(); 
-
-/*
-  ifstream f6(argv[6]); 
-
-
-  while(getline(f6,l))
-  {
-    stream << l << ' ';
-    while(stream >> val)
-    {
-      cout << "Weight Value: " << val << "\n";
-      ann->add_weights(witer, val);
-    }
-    witer++;
-    cout << "HEREERERERRE\n";
-  }
-
-
-  for(int i=0; i < ann->size(0); i++)
-  {
-    
-    while(getline(f6,l))
-    {
-      stream << l << ' ';
-      while(stream >> val)
-      {
-        cout << "Weight Value: " << val << "\n";
-        ann->add_weights(i, val);
-      }
-    }
-  }
-*/
-  ann->print_members();
+  ann->print_struc();
+  //ann->print_members();
 
   return 0;
 }

@@ -5,9 +5,12 @@
 
 #include "ann.h"
 
-Node::Node(int id) : a(0), in(0), err(0), idnum(id)
+Node::Node(int id)
 {
-
+  a = 0;
+  in = 0;
+  err = 0;
+  idnum = id;
 }
 
 Node::~Node()
@@ -58,7 +61,7 @@ void Ann::add_value(int choice, long double value)
 
 void Ann::add_weights(int iter, long double value)
 {
-  network.at(iter)->weights.push_back(value);
+  network.at(iter)->n_weights.push_back(value);
 }
 
 void Ann::add_node(Node* n)
@@ -74,27 +77,27 @@ void Ann::init_rows(int value)
 void Ann::print_members()
 {
   cout << "Train Input: \n";
-  for(int i=0; i < train_input.size(); i++)
+  for(unsigned int i=0; i < train_input.size(); i++)
   {
     cout << train_input.at(i) << " \n";
   }
   cout << "Train Output: \n";
-  for(int i=0; i < train_output.size(); i++)
+  for(unsigned int i=0; i < train_output.size(); i++)
   {
     cout << train_output.at(i) << " \n";
   }
   cout << "Test Input: \n";
-   for(int i=0; i < test_input.size(); i++)
+   for(unsigned int i=0; i < test_input.size(); i++)
   {
     cout << test_input.at(i) << " \n";
   }
   cout << "Test Output: \n";
-   for(int i=0; i < test_output.size(); i++)
+   for(unsigned int i=0; i < test_output.size(); i++)
   {
     cout << test_output.at(i) << " \n";
   }
   cout << "Structure: \n";
-   for(int i=0; i < structure.size(); i++)
+   for(unsigned int i=0; i < structure.size(); i++)
   {
     cout << structure.at(i) << " \n";
   }
@@ -127,6 +130,7 @@ int Ann::size(int selection)
       return network.size();
       break;
   }
+  return -1;
 }
 
 long double Ann::value(int selection, int pos)
@@ -151,7 +155,8 @@ long double Ann::value(int selection, int pos)
     case 6:
       return weights.at(pos);
       break;
-  } 
+  }
+  return -1; 
 }
 
 void Ann::update_next_node(int node, int nex_node)
@@ -161,14 +166,14 @@ void Ann::update_next_node(int node, int nex_node)
 
 void Ann::update_prev_nodes()
 {
-  for(int i=0; i < (network.size() - structure.back()); i++)
+  for(unsigned int i=0; i < (network.size() - structure.back()); i++)
   {
-    for(int j=0; j < network.at(i)->next.size(); j++)
+    for(unsigned int j=0; j < network.at(i)->next.size(); j++)
     {
       Node* tmp = network.at(i)->next.at(j);
       network.at(tmp->idnum)->from.push_back(network.at(i));
-      //long double tmpw = network.at(i)->weights.at(j);
-      network.at(tmp->idnum)->f_weights.push_back(0);
+      long double tmpw = network.at(i)->n_weights.at(j);
+      network.at(tmp->idnum)->f_weights.push_back(tmpw);
     }
   }
 }
@@ -176,26 +181,26 @@ void Ann::update_prev_nodes()
 void Ann::print_struc()
 {
   cout << "Structure: \n";
-  for(int i = 0; i < network.size(); i++)
+  for(unsigned int i = 0; i < network.size(); i++)
   {
     cout << "Node[" << i << "]\n"; 
     cout << "To Links:\n";
-    for(int j = 0; j < network.at(i)->next.size(); j++)
+    for(unsigned int j = 0; j < network.at(i)->next.size(); j++)
     {
       cout << (network.at(i)->next.at(j))->idnum << " ";
     }
     cout << "\nWeights:\n";
-    for(int j=0; j < network.at(i)->weights.size(); j++)
+    for(unsigned int j=0; j < network.at(i)->n_weights.size(); j++)
     {
-      cout << network.at(i)->weights.at(j) << " ";
+      cout << network.at(i)->n_weights.at(j) << " ";
     }
     cout << "\nFrom Links:\n";
-    for(int j = 0; j < network.at(i)->from.size(); j++)
+    for(unsigned int j = 0; j < network.at(i)->from.size(); j++)
     {
       cout << (network.at(i)->from.at(j))->idnum << " ";
     }
     cout << "\nFrom Weights:\n";
-    for(int j=0; j < network.at(i)->f_weights.size(); j++)
+    for(unsigned int j=0; j < network.at(i)->f_weights.size(); j++)
     {
       cout << network.at(i)->f_weights.at(j) << " ";
     }
@@ -205,7 +210,7 @@ void Ann::print_struc()
 
 void Ann::eval()
 {
-  long double a[network.size()];
+  //long double a[network.size()];
   //STEP 1:
   //for loop fills a vector
   /* for(int i=0; i < )
@@ -213,9 +218,9 @@ void Ann::eval()
 
   }*/
   //STEP 2/3:
-  for(int i=structure.at(0); i < (network.size()-1); i++)
+  for(unsigned int i=structure.at(0); i < (network.size()-1); i++)
   {
-    long double sum=0;
+    //long double sum=0;
     //Need from values...
     /*
     for(int j=0; j < )
