@@ -128,6 +128,11 @@ void Ann::init_rows(int value)
   io_rows = value;
 }
 
+void Ann::init_test_rows(int value)
+{
+  test_rows = value;
+}
+
 void Ann::print_members()
 {
   cout << "Train Input: \n";
@@ -278,15 +283,18 @@ void Ann::eval()
   unsigned int input_layer_size = structure.at(0);
   unsigned int output_layer_size = structure.back();
   unsigned int output_layer_first_node = (network.size() - output_layer_size);
-  unsigned int train_cols = train_input.size()/io_rows; 
-  //for(int k=0; k < io_rows; k++)
-  //{
+  unsigned int train_cols = train_input.size()/io_rows;
+  //cout << "Train_input size: " << train_input.size() << "\n";
+  //cout << "Train_input cols: " << train_cols << "\n";
+  //cout << "Train_input rows: " << io_rows << "\n";
+  for(int k=0; k < io_rows; k++)
+  {
     //X values are: train_input values
     //STEP 1:
     //for loop fills a value of first layer
     for(unsigned int i=0; i < input_layer_size; i++)
     {
-      network.at(i)->a = train_input.at(0);
+      network.at(i)->a = train_input.at(i+(k*train_cols));
     }
     //STEP 2/3:Calculate a values and in values for each node outside of the input layer
     for(unsigned int i=input_layer_size; i < network.size(); i++)
@@ -335,7 +343,7 @@ void Ann::eval()
       product = ((0.01)*(network.at(i)->err));
       network.at(i)->dummy = (network.at(i)->dummy + product); 
     }
- //}
+  }
 }
 
 int Ann::get_k()
@@ -343,7 +351,18 @@ int Ann::get_k()
   return m_k;
 }
 
-
+void Ann::e_dist()
+{
+  unsigned int input_layer_size = structure.at(0);
+  unsigned int test_cols = test_input.size()/test_rows;
+  for(unsigned int i=0; i < test_rows; i++)
+  {
+    for(unsigned int j=0; j < input_layer_size; j++)
+    {
+      network.at(i)->a = test_input.at((i*test_cols)+j);
+    }
+  }
+}
 
 
 

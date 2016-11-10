@@ -45,6 +45,10 @@ int main(int argc, char *argv[])
     {
       ann->init_rows(rows);
     }
+    if(i==2)
+    {
+      ann->init_test_rows(rows);
+    }
   }
 
   tmp2 = ann->size(5);

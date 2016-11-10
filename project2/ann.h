@@ -54,6 +54,7 @@ class Ann
     void add_weights(int iter, long double value);
     void add_node(Node* n);
     void init_rows(int value);
+    void init_test_rows(int value)
     void print_members();
     int  size(int selection);
     long double value(int selection, int pos);
@@ -71,6 +72,7 @@ class Ann
     vector<long double> structure;    //5
     vector<long double> weights;      //6
     int io_rows;
+    int test_rows;
     int m_k;
     vector<Node*> network;            //0
 
