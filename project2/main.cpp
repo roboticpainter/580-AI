@@ -41,7 +41,10 @@ int main(int argc, char *argv[])
     {
       ann->add_value(i, x);
     }
-    ann->init_rows(rows);
+    if(i==1)
+    {
+      ann->init_rows(rows);
+    }
   }
 
   tmp2 = ann->size(5);
