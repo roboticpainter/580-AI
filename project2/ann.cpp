@@ -10,6 +10,7 @@ Node::Node(int id)
   a = 0;
   in = 0;
   err = 0;
+  dummy = 0.01;
   idnum = id;
 }
 
@@ -33,7 +34,7 @@ void Node::set_a(long double value)
 
 void Node::set_err(long double value)
 {
-
+  err = value;
 }
 
 Ann::Ann(int k) : m_k(k) 
@@ -78,15 +79,37 @@ void Ann::set_y()
   switch(tmp)
   {
     case 3:
-    for(unsigned int i = 0; i < 3; i++)
-    {
-      for(unsigned int j = 0; j < 3; j++)
-      {
-        y[i][j] = 0.9;
-        y[i][i] = 0.1;
-      }
-    }
+      y0.push_back(0.1);
+      y0.push_back(0.9);
+      y0.push_back(0.9);
+      y1.push_back(0.9);
+      y1.push_back(0.1);
+      y1.push_back(0.9);
+      y2.push_back(0.9);
+      y2.push_back(0.9);
+      y2.push_back(0.1);
     break;
+    case 4:
+      y0.push_back(0.1);
+      y0.push_back(0.9);
+      y0.push_back(0.9);
+      y0.push_back(0.9);
+      y1.push_back(0.9);
+      y1.push_back(0.1);
+      y1.push_back(0.9);
+      y1.push_back(0.9);
+      y2.push_back(0.9);
+      y2.push_back(0.9);
+      y2.push_back(0.1);
+      y2.push_back(0.9);
+      y3.push_back(0.9);
+      y3.push_back(0.9);
+      y3.push_back(0.9);
+      y3.push_back(0.1);
+    break;
+    default:
+      y0.push_back(0);
+      break;
   }
 }
 
@@ -239,6 +262,15 @@ void Ann::print_struc()
   }
 }
 
+void Ann::print_weights()
+{
+  int amt = structure.at(1);
+  for(int i=0; i < amt; i++)
+  {
+    cout << showpoint << fixed << setprecision(12) << network.at(0)->n_weights.at(i) << " ";
+  }
+  cout << "\n";
+}
 
 void Ann::eval()
 {
@@ -260,6 +292,7 @@ void Ann::eval()
     {
       sum += ((network.at(i)->from.at(j)->a) * (network.at(i)->f_weights.at(j))); 
     }
+    sum += network.at(i)->dummy;
     network.at(i)->set_in(sum);
     network.at(i)->set_a(sum);
   }
@@ -268,12 +301,12 @@ void Ann::eval()
   for(unsigned int i = output_layer_first_node; i < network.size(); i++)
   {
     long double product = 0;
-    product = ((network.at(i)->a) * (1-(network.at(i)->a)) * ((y[0][iter])-(network.at(i)->a)));
+    product = ((network.at(i)->a) * (1-(network.at(i)->a)) * ((y0.at(iter))-(network.at(i)->a)));
     network.at(i)->set_err(product);
     iter++;
   }
   //STEP 5/6:Calculate error for each previous node using back propagation.
-  for(unsigned int i = (output_layer_first_node - 1); i >= 0; i--)
+  for(unsigned int i = (output_layer_first_node - 1); i > 0; i--)
   {
     long double tmp = 0;
     long double product = 0;
@@ -288,14 +321,22 @@ void Ann::eval()
   //STEP 7:Update weights!
   for(unsigned int i=0; i < network.size(); i++)
   {
-    long double sum = 0;
     for(unsigned int j=0; j < network.at(i)->n_weights.size(); j++)
     {
-      
+      long double tmp = 0;
+      tmp = ((0.01)*(network.at(i)->a)*(network.at(i)->next.at(j)->err));
+      network.at(i)->n_weights.at(j) = (network.at(i)->n_weights.at(j) + tmp);
     }
+    long double product = 0;
+    product = ((0.01)*(network.at(i)->err));
+    network.at(i)->dummy = (network.at(i)->dummy + product); 
   }
 }
 
+int Ann::get_k()
+{
+  return m_k;
+}
 
 
 

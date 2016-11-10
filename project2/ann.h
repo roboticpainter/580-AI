@@ -11,6 +11,7 @@
 #include<string>
 #include<map>
 #include<math.h>
+#include<iomanip>
 
 using namespace std;
 using std::cout;
@@ -33,6 +34,7 @@ class Node
     long double a;
     long double in;
     long double err;
+    long double dummy;
     //map<Node*, long double> nextmap;
     //map<Node*, long double> frommap;
     vector<Node*> next;
@@ -58,7 +60,9 @@ class Ann
     void update_next_node(int node, int nex_node);
     void update_prev_nodes();
     void print_struc();
+    void print_weights();
     void eval();
+    int get_k();
   private:
     vector<long double> train_input;  //1
     vector<long double> train_output; //2
@@ -69,8 +73,17 @@ class Ann
     int io_rows;
     int m_k;
     vector<Node*> network;            //0
-    vector< vector<long double> > y;
 
+    vector<long double> y0;
+    vector<long double> y1;
+    vector<long double> y2;
+    vector<long double> y3;
+    vector<long double> y4;
+    vector<long double> y5;
+    vector<long double> y6;
+    vector<long double> y7;
+    vector<long double> y8;
+    vector<long double> y9;
 };
 
 #endif

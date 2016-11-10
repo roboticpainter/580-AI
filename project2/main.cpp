@@ -83,11 +83,18 @@ int main(int argc, char *argv[])
   }
 
   ann->update_prev_nodes();
+  ann->set_y();
 
-  ann->print_struc();
+  //ann->print_struc();
   //ann->print_members();
 
-  ann->eval();
+  int k = ann->get_k();  
+
+  for(int i=0; i < k; i++)
+  {
+    ann->eval();
+  }
+  ann->print_weights();
 
   return 0;
 }
