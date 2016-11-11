@@ -7,9 +7,9 @@
 
 Node::Node(int id)
 {
-  a = 0;
-  in = 0;
-  err = 0;
+  a = 0.0;
+  in = 0.0;
+  err = 0.0;
   dummy = 0.01;
   idnum = id;
 }
@@ -27,8 +27,8 @@ void Node::set_in(long double value)
 
 void Node::set_a(long double value)
 {
-  long double tmp = 0;
-  tmp = (1/(1+(exp((-1)*(value)))));
+  long double tmp = 0.0;
+  tmp = (1.0/(1.0+(exp((-1.0)*(value)))));
   a = tmp;
 }
 
@@ -80,7 +80,7 @@ void Ann::set_y()
   {
     case 3:
       y0.push_back(0.1);
-      y0.push_back(0.9);
+      y0.push_back(0.9); 
       y0.push_back(0.9);
       y1.push_back(0.9);
       y1.push_back(0.1);
@@ -88,10 +88,13 @@ void Ann::set_y()
       y2.push_back(0.9);
       y2.push_back(0.9);
       y2.push_back(0.1);
-    break;
+      ys.push_back(y0);
+      ys.push_back(y1);
+      ys.push_back(y2);
+      break;
     case 4:
       y0.push_back(0.1);
-      y0.push_back(0.9);
+      y0.push_back(0.9); 
       y0.push_back(0.9);
       y0.push_back(0.9);
       y1.push_back(0.9);
@@ -106,10 +109,16 @@ void Ann::set_y()
       y3.push_back(0.9);
       y3.push_back(0.9);
       y3.push_back(0.1);
-    break;
+      ys.push_back(y0);
+      ys.push_back(y1);
+      ys.push_back(y2);
+      ys.push_back(y3);
+      break;
+        break;
     default:
       y0.push_back(0);
-      break;
+      ys.push_back(y0);
+      break; 
   }
 }
 
@@ -299,7 +308,7 @@ void Ann::eval()
     //STEP 2/3:Calculate a values and in values for each node outside of the input layer
     for(unsigned int i=input_layer_size; i < network.size(); i++)
     {
-      long double sum=0; 
+      long double sum=0.0; 
       for(unsigned int j=0; j < network.at(i)->from.size(); j++)
       {
         sum += ((network.at(i)->from.at(j)->a) * (network.at(i)->f_weights.at(j))); 
@@ -312,16 +321,16 @@ void Ann::eval()
     int iter=0;
     for(unsigned int i = output_layer_first_node; i < network.size(); i++)
     {
-      long double product = 0;
-      product = ((network.at(i)->a) * (1-(network.at(i)->a)) * ((y0.at(iter))-(network.at(i)->a)));
+      long double product = 0.0;
+      product = ((network.at(i)->a) * (1-(network.at(i)->a)) * ((ys.at(train_output.at(k)).at(iter))-(network.at(i)->a)));
       network.at(i)->set_err(product);
       iter++;
     }
     //STEP 5/6:Calculate error for each previous node using back propagation.
     for(unsigned int i = (output_layer_first_node - 1); i > 0; i--)
     {
-      long double tmp = 0;
-      long double product = 0;
+      long double tmp = 0.0;
+      long double product = 0.0;
       product = ((network.at(i)->a)*((1-(network.at(i)->a))));
       for(unsigned int j = 0; j < network.at(i)->next.size(); j++)
       {
@@ -335,11 +344,11 @@ void Ann::eval()
     {
       for(unsigned int j=0; j < network.at(i)->n_weights.size(); j++)
       {
-        long double tmp = 0;
+        long double tmp = 0.0;
         tmp = ((0.01)*(network.at(i)->a)*(network.at(i)->next.at(j)->err));
         network.at(i)->n_weights.at(j) = (network.at(i)->n_weights.at(j) + tmp);
       }
-      long double product = 0;
+      long double product = 0.0;
       product = ((0.01)*(network.at(i)->err));
       network.at(i)->dummy = (network.at(i)->dummy + product); 
     }

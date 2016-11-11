@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
   //ann->print_members();
 
   int k = ann->get_k();  
-
+  cout << "K: " << k << "\n";
   for(int i=0; i < k; i++)
   {
     ann->eval();
