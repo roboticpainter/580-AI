@@ -246,13 +246,27 @@ void Ann::update_prev_nodes()
   }
 }
 
+void Ann::update_from_weights()
+{
+  for(unsigned int i=0; i < (network.size() - structure.back()); i++)
+  {
+    for(unsigned int j=0; j < network.at(i)->next.size(); j++)
+    {
+      Node* tmp = network.at(i)->next.at(j);
+      //network.at(tmp->idnum)->from.push_back(network.at(i));
+      long double tmpw = network.at(i)->n_weights.at(j);
+      network.at(tmp->idnum)->f_weights.at(j) = tmpw;
+    }
+  }
+}
+
 void Ann::print_struc()
 {
   cout << "Structure: \n";
   for(unsigned int i = 0; i < network.size(); i++)
   {
     cout << "Node[" << i << "]\n"; 
-    cout << "To Links:\n";
+   /* cout << "To Links:\n";
     for(unsigned int j = 0; j < network.at(i)->next.size(); j++)
     {
       cout << (network.at(i)->next.at(j))->idnum << " ";
@@ -266,11 +280,11 @@ void Ann::print_struc()
     for(unsigned int j = 0; j < network.at(i)->from.size(); j++)
     {
       cout << (network.at(i)->from.at(j))->idnum << " ";
-    }
+    }*/
     cout << "\nFrom Weights:\n";
     for(unsigned int j=0; j < network.at(i)->f_weights.size(); j++)
     {
-      cout << network.at(i)->f_weights.at(j) << " ";
+      cout << showpoint << fixed << setprecision(12) << network.at(i)->f_weights.at(j) << " ";
     }
     cout << "\n\n";
   }
@@ -285,6 +299,11 @@ void Ann::print_weights()
     cout << showpoint << fixed << setprecision(12) << network.at(0)->n_weights.at(i) << " ";
   }
   cout << "\n";
+  for(unsigned int i=0; i < guesses.size(); i++)
+  {
+    cout << guesses.at(i) << "\n";
+  }
+  cout << accuracy << "\n";
 }
 
 void Ann::eval()
@@ -317,7 +336,7 @@ void Ann::eval()
       network.at(i)->set_in(sum);
       network.at(i)->set_a(sum);
     }
-    //STEP 4:Calculate the error in the output layer. NEEDS MODIFICATION OF Y VALUES
+    //STEP 4:Calculate the error in the output layer.
     int iter=0;
     for(unsigned int i = output_layer_first_node; i < network.size(); i++)
     {
@@ -352,6 +371,7 @@ void Ann::eval()
       product = ((0.01)*(network.at(i)->err));
       network.at(i)->dummy = (network.at(i)->dummy + product); 
     }
+    update_from_weights();
   }
 }
 
@@ -364,13 +384,65 @@ void Ann::e_dist()
 {
   unsigned int input_layer_size = structure.at(0);
   unsigned int test_cols = test_input.size()/test_rows;
-  for(unsigned int i=0; i < test_rows; i++)
+  unsigned int output_layer_size = structure.back();
+  unsigned int output_layer_first_node = (network.size() - output_layer_size);
+  for(int i=0; i < test_rows; i++)
   {
     for(unsigned int j=0; j < input_layer_size; j++)
     {
-      network.at(i)->a = test_input.at((i*test_cols)+j);
+      network.at(j)->a = test_input.at((i*test_cols)+j);
+    }
+    for(unsigned int j=input_layer_size; j < network.size(); j++)
+    {
+      long double sum=0.0;
+      for(unsigned int k=0; k < network.at(j)->from.size(); k++)
+      {
+        sum += ((network.at(j)->from.at(k)->a) * (network.at(j)->f_weights.at(k)));
+      }
+      sum += network.at(j)->dummy;
+      network.at(j)->set_in(sum);
+      network.at(j)->set_a(sum);
+    }
+    long double ed = 0.0;
+    long double tmp = 0.0;
+    long double sum = 0.0;
+    int guess = -1;
+    for(unsigned int i=0; i < structure.back(); i++)
+    {
+      int iter = 0;
+      for(unsigned int j=output_layer_first_node; j < network.size(); j++)
+      {
+        sum += pow((ys.at(i).at(iter) - network.at(j)->a), 2.0);
+        iter++;
+      }
+      if(i==0)
+      {
+        ed = sqrt(sum);
+        guess = i;
+      }
+      else
+      {
+        tmp = sqrt(sum);
+        if(tmp < ed)
+        {
+          ed = tmp;
+          guess = i;
+        }
+      }
+    }
+    guesses.push_back(guess);
+  }
+  long double count = 0.0; 
+  for(unsigned int i=0; i < guesses.size(); i++)
+  {
+    if(guesses.at(i) == test_output.at(i))
+    {
+      count++;
     }
   }
+  //cout << "guesses: " << static_cast<long double>(guesses.size()) << "\n";
+  //cout << "count: " << count << "\n";
+  accuracy = (count/(static_cast<long double>(guesses.size())));
 }
 
 

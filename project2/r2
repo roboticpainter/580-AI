@@ -1,0 +1,1 @@
+./test input/train_input2.txt input/train_output2.txt input/test_input2.txt input/test_output2.txt input/structure2.txt input/weights2.txt 700

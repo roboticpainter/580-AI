@@ -92,15 +92,18 @@ int main(int argc, char *argv[])
   ann->update_prev_nodes();
   ann->set_y();
 
-  //ann->print_struc();
   //ann->print_members();
+  //ann->print_struc();
 
   int k = ann->get_k();  
-  cout << "K: " << k << "\n";
   for(int i=0; i < k; i++)
   {
     ann->eval();
+    
   }
+  
+  ann->e_dist();
+ 
   ann->print_weights();
 
   return 0;
