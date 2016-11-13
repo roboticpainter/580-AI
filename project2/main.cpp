@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
   string l;
   stringstream stream;
   
-
+  //Take in values and create vectors for each type of input
   for(int i=1; i <= 5; i++)
   {
     long double x = 0;
@@ -76,6 +76,7 @@ int main(int argc, char *argv[])
     cur_node += tmp;
   } 
 
+  //Take input for weights and give what node they belong to
 
   ifstream f6(argv[6]); 
   int count = 0;
@@ -89,21 +90,28 @@ int main(int argc, char *argv[])
     count++;
   }
 
+  //Update all the from node values and initialize a y vector
+
   ann->update_prev_nodes();
   ann->set_y();
 
   //ann->print_members();
   //ann->print_struc();
+ 
+  //Run the eval function k times
 
   int k = ann->get_k();  
   for(int i=0; i < k; i++)
   {
     ann->eval();
-    
   }
   
+  //Calculate the Euclidean distance
+ 
   ann->e_dist();
  
+  //Print output
+
   ann->print_weights();
 
   return 0;

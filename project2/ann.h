@@ -35,8 +35,6 @@ class Node
     long double in;
     long double err;
     long double dummy;
-    //map<Node*, long double> nextmap;
-    //map<Node*, long double> frommap;
     vector<Node*> next;
     vector<long double> n_weights;
     vector<Node*> from;
